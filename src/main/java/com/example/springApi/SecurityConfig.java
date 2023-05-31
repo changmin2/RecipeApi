@@ -1,5 +1,6 @@
 package com.example.springApi;
 
+import com.example.springApi.filter.JwtExceptionFilter;
 import com.example.springApi.filter.JwtAuthenticationFilter;
 import com.example.springApi.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,10 +30,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .requestMatchers("/members/login").permitAll()
+                .requestMatchers("/members/join").permitAll()
                 .requestMatchers("/members/test").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter,JwtAuthenticationFilter.class);
         return http.build();
     }
 

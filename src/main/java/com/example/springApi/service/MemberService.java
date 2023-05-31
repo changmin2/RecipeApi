@@ -1,6 +1,7 @@
 package com.example.springApi.service;
 
 import com.example.springApi.domain.dto.TokenInfo;
+import com.example.springApi.domain.member.Member;
 import com.example.springApi.provider.JwtTokenProvider;
 import com.example.springApi.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -9,6 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,5 +36,20 @@ public class MemberService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         return tokenInfo;
+    }
+
+    @Transactional
+    public String join(String memberId,String password){
+        return memberRepository.save(
+                    Member.builder()
+                        .memberId(memberId)
+                        .password(password)
+                        .roles(Collections.singletonList("USER"))
+                        .build()
+        ).getMemberId();
+    }
+
+    public Optional<Member> getMember(String memberId){
+        return memberRepository.findByMemberId(memberId);
     }
 }

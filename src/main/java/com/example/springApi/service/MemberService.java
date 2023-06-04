@@ -1,18 +1,27 @@
 package com.example.springApi.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.example.springApi.domain.dto.TokenInfo;
 import com.example.springApi.domain.member.Member;
 import com.example.springApi.provider.JwtTokenProvider;
 import com.example.springApi.repository.MemberRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,5 +60,34 @@ public class MemberService {
 
     public Optional<Member> getMember(String memberId){
         return memberRepository.findByMemberId(memberId);
+    }
+
+    @Transactional
+    public TokenInfo refresh(String refreshToken){
+        if(jwtTokenProvider.validateToken(refreshToken)) {
+
+            Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+            String memberId = authentication.getName();
+            Member member = getMember(memberId)
+                    .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
+
+
+            TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+
+            return tokenInfo;
+        }
+        return null;
+    }
+
+    public Member getMe(String accessToken){
+        if(jwtTokenProvider.validateToken(accessToken)) {
+
+            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+            String memberId = authentication.getName();
+            Member member = getMember(memberId)
+                    .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
+            return member;
+        }
+        return null;
     }
 }

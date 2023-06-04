@@ -4,6 +4,7 @@ import com.example.springApi.filter.JwtExceptionFilter;
 import com.example.springApi.filter.JwtAuthenticationFilter;
 import com.example.springApi.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +32,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/members/login").permitAll()
                 .requestMatchers("/members/join").permitAll()
-                .requestMatchers("/members/test").hasRole("USER")
+                .requestMatchers("/members/refresh").permitAll()
+                .requestMatchers("/members/me").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

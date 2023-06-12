@@ -5,17 +5,15 @@ import com.example.springApi.domain.dto.TokenInfo;
 import com.example.springApi.domain.member.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.security.SecurityUtil;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.springApi.service.MemberService;
+import com.example.springApi.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.springApi.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.Map;
 

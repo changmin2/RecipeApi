@@ -1,4 +1,4 @@
-package com.example.springApi.service;
+package com.example.springApi.service.member;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

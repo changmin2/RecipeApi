@@ -1,4 +1,4 @@
-package com.example.springApi.service;
+package com.example.springApi.service.member;
 
 import com.example.springApi.domain.member.Member;
 import com.example.springApi.repository.MemberRepository;

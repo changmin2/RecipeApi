@@ -1,16 +1,18 @@
 package com.example.springApi.domain.recipe;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Data
 @Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "recipes")
@@ -46,4 +48,8 @@ public class Recipes {
     private String image_url;
 
     private String detail_url;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "recipe_id")
+    private List<DetailRecipe> detailRecipeList = new ArrayList<>();
 }

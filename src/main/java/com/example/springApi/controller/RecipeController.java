@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -18,13 +19,9 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/all")
-    public String paginate(@ModelAttribute RecipeRequestDto requestDto){
-        List<Recipes> recipesList = recipeService.allRecipes(requestDto);
-
-        for (Recipes recipes : recipesList) {
-            System.out.println(recipes.toString());
-        }
-
-        return "test";
+    public Map<String,Object> paginate(@ModelAttribute RecipeRequestDto requestDto){
+        System.out.println("요청 변수:"+requestDto.toString());
+        Map<String, Object> map = recipeService.allRecipesV2(requestDto);
+        return map;
     }
 }

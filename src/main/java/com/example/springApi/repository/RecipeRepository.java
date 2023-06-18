@@ -17,4 +17,10 @@ public interface RecipeRepository extends JpaRepository<Recipes, Integer> {
             "order by recipe_id\n" +
             "limit :count",nativeQuery = true)
     List<Recipes> paginate(@Param(value = "recipe_id")int recipe_id,@Param(value = "count")int count);
+
+    @Query(value = "SELECT r.* \n" +
+            "FROM recipe.recipes r\n" +
+            "order by recipe_id desc\n" +
+            "limit 1",nativeQuery = true)
+    int getFinalId();
 }

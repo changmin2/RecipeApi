@@ -27,7 +27,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
-        System.out.println("전다값: "+memberLoginRequestDto.toString());
         Member member = memberService.getMember(memberLoginRequestDto.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
         if(!passwordEncoder.matches(memberLoginRequestDto.getPassword(),member.getPassword())){

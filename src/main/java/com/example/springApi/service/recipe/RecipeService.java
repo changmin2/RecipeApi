@@ -1,8 +1,11 @@
 package com.example.springApi.service.recipe;
 
 import com.example.springApi.domain.dto.MetaDto;
+import com.example.springApi.domain.dto.RecipeDetailDto;
 import com.example.springApi.domain.dto.RecipeRequestDto;
+import com.example.springApi.domain.recipe.DetailRecipe;
 import com.example.springApi.domain.recipe.Recipes;
+import com.example.springApi.repository.RecipeDetailRepository;
 import com.example.springApi.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,14 +13,16 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RecipeService {
     private  final RecipeRepository recipeRepository;
+    private final RecipeDetailRepository detailRepository;
 
-    public List<Recipes> allRecipes(RecipeRequestDto requestDto){
-        return  recipeRepository.paginate(requestDto.getAfter(), requestDto.getCount());
+    public Recipes getRecipe(int id){
+        return recipeRepository.findById(id).get();
     }
 
     public Map<String,Object> allRecipesV2(RecipeRequestDto requestDto){
@@ -38,4 +43,11 @@ public class RecipeService {
 
         return map;
     }
+
+    public List<DetailRecipe> getDetail(String id){
+        System.out.println("id: "+id);
+        List<DetailRecipe> details = detailRepository.getDetail(id);
+        return  details;
+    }
+
 }

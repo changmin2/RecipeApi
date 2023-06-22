@@ -13,6 +13,6 @@ public interface RecipeDetailRepository extends JpaRepository<DetailRecipe,Long>
 
     @Query(value = "SELECT t.* FROM recipe.DetailRecipe t\n" +
             "where recipe_id=:recipe_id\n" +
-            "order by cooking_no desc;",nativeQuery = true)
+            "order by cooking_no asc;",nativeQuery = true)
     List<DetailRecipe> getDetail(String recipe_id);
 }

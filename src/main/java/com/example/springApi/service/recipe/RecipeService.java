@@ -28,9 +28,14 @@ public class RecipeService {
     public Map<String,Object> allRecipesV2(RecipeRequestDto requestDto){
         int count;
         boolean hasMore = true;
-        List<Recipes> recipesList = recipeRepository.paginate(requestDto.getAfter(), requestDto.getCount());
-        count = recipesList.size();
-        if(recipesList.get(count-1).getRecipe_id()==recipeRepository.getFinalId()){
+        Optional<List<Recipes>> recipesList = recipeRepository.paginate(requestDto.getAfter(), requestDto.getCount(), requestDto.getKeyword());
+        List<Recipes> lists = recipesList.get();
+        if(lists.size()==0){
+            return null;
+        }
+
+        count = recipesList.get().size();
+        if(recipesList.get().get(count-1).getRecipe_id()==recipeRepository.getFinalId(requestDto.getKeyword())){
          hasMore = false;
         }
 

@@ -37,6 +37,13 @@ public class MemberController {
         return tokenInfo;
     }
 
+    @PostMapping("/duplicate")
+    public boolean duplicate(@RequestBody Map<String,String> map){
+        String id =  map.get("email");
+        System.out.println(id);
+        return true;
+    }
+
     @GetMapping("/me")
     public Map<String,String> getMe(HttpServletRequest request){
         System.out.println("me 진입");
@@ -72,4 +79,7 @@ public class MemberController {
         String refreshToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
         return memberService.refresh(refreshToken);
     }
+
+
+
 }

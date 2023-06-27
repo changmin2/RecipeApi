@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .requestMatchers("/members/refresh").permitAll()
                 .requestMatchers("/members/me").permitAll()
                 .requestMatchers("/recipe/**").permitAll()
+                .requestMatchers("/members/duplicate").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

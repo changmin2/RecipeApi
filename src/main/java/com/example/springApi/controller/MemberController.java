@@ -36,12 +36,10 @@ public class MemberController {
 
         return tokenInfo;
     }
-
+    //아이디 중복 체크
     @PostMapping("/duplicate")
     public boolean duplicate(@RequestBody Map<String,String> map){
-        String id =  map.get("email");
-        System.out.println(id);
-        return true;
+        return memberService.duplicate(map.get("email"));
     }
 
     @GetMapping("/me")

@@ -90,4 +90,8 @@ public class MemberService {
         }
         return null;
     }
+
+    public boolean duplicate(String email) {
+        return memberRepository.findByMemberId(email).isEmpty();
+    }
 }

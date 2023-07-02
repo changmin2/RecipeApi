@@ -27,4 +27,21 @@ public interface RecipeRepository extends JpaRepository<Recipes, Integer> {
             "order by recipe_id desc\n" +
             "limit 1",nativeQuery = true)
     int getFinalId(@Param(value="keyword")String keyword);
+
+    @Query(value ="SELECT * \n" +
+            "FROM recipe.recipes\n" +
+            "where recipe_id IN (:clips) \n"+
+            "and recipe_id>:recipe_id\n"+
+            "order by recipe_id\n"+
+            "limit :count",nativeQuery = true)
+    Optional<List<Recipes>> getClipRecipes(@Param("clips") List<String> clips, @Param(value = "count")int count,@Param(value = "recipe_id")int recipe_id);
+
+    @Query(value ="SELECT * \n" +
+            "FROM recipe.recipes\n" +
+            "where recipe_id IN (:clips)\n" +
+            "order by recipe_id desc\n"+
+            "limit 1",nativeQuery = true)
+    int getClipFinalId(@Param("clips") List<String> clips);
+
+
 }

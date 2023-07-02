@@ -16,10 +16,8 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: none # 자동으로 테이블을 만들어줌 애플리케이션 실행시에 다 지우고 다시 실행
+      ddl-auto: update # 자동으로 테이블을 만들어줌 애플리케이션 실행시에 다 지우고 다시 실행
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-#HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@52e1bea3 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-#com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.

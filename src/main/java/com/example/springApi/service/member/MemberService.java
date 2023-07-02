@@ -3,8 +3,10 @@ package com.example.springApi.service.member;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.example.springApi.domain.dto.TokenInfo;
+import com.example.springApi.domain.member.Clip;
 import com.example.springApi.domain.member.Member;
 import com.example.springApi.provider.JwtTokenProvider;
+import com.example.springApi.repository.ClipRepository;
 import com.example.springApi.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,10 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +29,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final ClipRepository clipRepository;
 
     @Transactional
     public TokenInfo login(String memberId, String password) {
@@ -81,11 +81,11 @@ public class MemberService {
 
     public Member getMe(String accessToken){
         if(jwtTokenProvider.validateToken(accessToken)) {
-
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             String memberId = authentication.getName();
             Member member = getMember(memberId)
                     .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 ID 입니다."));
+
             return member;
         }
         return null;
@@ -93,5 +93,12 @@ public class MemberService {
 
     public boolean duplicate(String email) {
         return memberRepository.findByMemberId(email).isEmpty();
+    }
+
+    public List<Clip> getClips(String memberId){
+
+        List<Clip> clips = clipRepository.getClips(memberId);
+        if (clips.size()==0) return  null;
+        return  clips;
     }
 }

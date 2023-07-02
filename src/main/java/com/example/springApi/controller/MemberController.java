@@ -1,8 +1,12 @@
 package com.example.springApi.controller;
 
 import com.example.springApi.domain.dto.MemberLoginRequestDto;
+import com.example.springApi.domain.dto.RecipeRequestDto;
 import com.example.springApi.domain.dto.TokenInfo;
+import com.example.springApi.domain.member.Clip;
 import com.example.springApi.domain.member.Member;
+import com.example.springApi.domain.recipe.Recipes;
+import com.example.springApi.service.recipe.RecipeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +19,7 @@ import static com.example.springApi.utils.SecurityUtils.TOKEN_HEADER_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j

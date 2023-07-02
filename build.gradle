@@ -13,6 +13,9 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 repositories {
 	mavenCentral()
@@ -35,3 +38,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

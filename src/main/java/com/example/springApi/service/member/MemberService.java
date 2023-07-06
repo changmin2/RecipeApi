@@ -79,6 +79,11 @@ public class MemberService {
         return null;
     }
 
+    @Transactional
+    public void withDrawl(Member member){
+        memberRepository.delete(member);
+    }
+
     public Member getMe(String accessToken){
         if(jwtTokenProvider.validateToken(accessToken)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);

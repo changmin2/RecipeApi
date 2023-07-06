@@ -111,4 +111,12 @@ public class RecipeService {
         clipRepository.deleteClip(Integer.parseInt(id),memberId);
     }
 
+    @Transactional
+    public void withDrawl(Member member) {
+
+        List<Clip> clips = clipRepository.getClips(member.getMemberId());
+        for (Clip clip : clips) {
+            clipRepository.delete(clip);
+        }
+    }
 }

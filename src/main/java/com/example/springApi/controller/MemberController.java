@@ -29,6 +29,7 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final RecipeService recipeService;
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
@@ -84,5 +85,17 @@ public class MemberController {
     }
 
 
+    @GetMapping("/withDrawal")
+    public void WithDrawl(HttpServletRequest request){
+        String authroizationHeader = request.getHeader(AUTHORIZATION);
+        if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
+            throw new RuntimeException("JWT Token이 존재하지 않습니다.");
+        }
+
+        String accessToken = authroizationHeader.substring(TOKEN_HEADER_PREFIX.length());
+        Member member= memberService.getMe(accessToken);
+        recipeService.withDrawl(member);
+        memberService.withDrawl(member);
+    }
 
 }

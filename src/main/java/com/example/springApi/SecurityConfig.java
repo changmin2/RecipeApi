@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .requestMatchers("/recipe/**").permitAll()
                 .requestMatchers("/members/duplicate").permitAll()
                 .requestMatchers("/members/**").permitAll()
+                .requestMatchers("/members/withDrawal").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

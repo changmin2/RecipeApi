@@ -21,12 +21,32 @@ public interface RecipeRepository extends JpaRepository<Recipes, Integer> {
     Optional<List<Recipes>> paginate(@Param(value = "recipe_id")int recipe_id, @Param(value = "count")int count,
                                     @Param(value = "keyword")String keyword);
 
+    @Query(value = "SELECT t.*\n" +
+            "FROM recipe.recipes t\n" +
+            "where recipe_id>:recipe_id\n" +
+            "and recipe_nm LIKE %:keyword%\n" +
+            "and nation_nm LIKE %:nm%\n" +
+            "and level_nm LIKE %:level%\n" +
+            "order by recipe_id\n" +
+            "limit :count",nativeQuery = true)
+    Optional<List<Recipes>> paginateV2(@Param(value = "recipe_id")int recipe_id, @Param(value = "count")int count,
+                                     @Param(value = "keyword")String keyword,@Param(value = "nm")String nm,@Param(value = "level")String level);
+
     @Query(value = "SELECT r.* \n" +
             "FROM recipe.recipes r\n" +
             "where recipe_nm LIKE %:keyword%\n" +
             "order by recipe_id desc\n" +
             "limit 1",nativeQuery = true)
     int getFinalId(@Param(value="keyword")String keyword);
+
+    @Query(value = "SELECT r.* \n" +
+            "FROM recipe.recipes r\n" +
+            "where recipe_nm LIKE %:keyword%\n" +
+            "and nation_nm LIKE %:nm%\n" +
+            "and level_nm LIKE %:level%\n" +
+            "order by recipe_id desc\n" +
+            "limit 1",nativeQuery = true)
+    int getFinalCategoryId(@Param(value="keyword")String keyword,@Param(value = "nm")String nm,@Param(value = "level")String level);
 
     @Query(value ="SELECT * \n" +
             "FROM recipe.recipes\n" +

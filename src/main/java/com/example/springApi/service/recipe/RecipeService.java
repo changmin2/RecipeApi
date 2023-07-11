@@ -1,5 +1,6 @@
 package com.example.springApi.service.recipe;
 
+import com.example.springApi.domain.dto.CategoryRecipeRequestDto;
 import com.example.springApi.domain.dto.MetaDto;
 import com.example.springApi.domain.dto.RecipeDetailDto;
 import com.example.springApi.domain.dto.RecipeRequestDto;
@@ -56,6 +57,40 @@ public class RecipeService {
         return map;
     }
 
+
+    public Map<String,Object> allRecipesV3(CategoryRecipeRequestDto requestDto){
+        int count;
+        boolean hasMore = true;
+        String nm = requestDto.getNm();
+        if(nm.equals("전체")){
+            nm="";
+        }
+        String level = requestDto.getLevel();
+        if(level.equals("전체")){
+            level="";
+        }
+        System.out.println(nm.toString());
+        Optional<List<Recipes>> recipesList = recipeRepository.paginateV2(requestDto.getAfter(), requestDto.getCount(), requestDto.getKeyword(),nm,level);
+        System.out.println(recipesList.toString()+"쿼리결");
+        List<Recipes> lists = recipesList.get();
+        if(lists.size()==0){
+            return null;
+        }
+
+        count = recipesList.get().size();
+        if(recipesList.get().get(count-1).getRecipe_id()==recipeRepository.getFinalCategoryId(requestDto.getKeyword(),nm,level)){
+            hasMore = false;
+        }
+
+        MetaDto metaDto =new MetaDto();
+        metaDto.setCount(count);
+        metaDto.setHasMore(hasMore);
+        Map<String,Object> map = new HashMap<>();
+        map.put("meta",metaDto);
+        map.put("data",recipesList);
+
+        return map;
+    }
     public List<DetailRecipe> getDetail(String id){
         System.out.println("id: "+id);
         List<DetailRecipe> details = detailRepository.getDetail(id);

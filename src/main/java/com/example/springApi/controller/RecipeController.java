@@ -1,5 +1,6 @@
 package com.example.springApi.controller;
 
+import com.example.springApi.domain.dto.CategoryRecipeRequestDto;
 import com.example.springApi.domain.dto.MetaDto;
 import com.example.springApi.domain.dto.RecipeRequestDto;
 import com.example.springApi.domain.member.Clip;
@@ -35,6 +36,13 @@ public class RecipeController {
     public Map<String,Object> paginate(@ModelAttribute RecipeRequestDto requestDto){
         System.out.println("요청 변수:"+requestDto.toString());
         Map<String, Object> map = recipeService.allRecipesV2(requestDto);
+        return map;
+    }
+
+    @GetMapping("/allV2")
+    public Map<String,Object> paginateV2(@ModelAttribute CategoryRecipeRequestDto requestDto){
+        System.out.println("요청 변수:"+requestDto.toString());
+        Map<String, Object> map = recipeService.allRecipesV3(requestDto);
         return map;
     }
 

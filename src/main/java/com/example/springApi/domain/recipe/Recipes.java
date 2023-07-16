@@ -1,5 +1,6 @@
 package com.example.springApi.domain.recipe;
 
+import com.example.springApi.domain.comment.Comment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,4 +53,8 @@ public class Recipes {
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(referencedColumnName = "recipe_id")
     private List<DetailRecipe> detailRecipeList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "recipe_id")
+    private List<Comment> commentList = new ArrayList<>();
 }

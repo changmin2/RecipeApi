@@ -1,6 +1,7 @@
 package com.example.springApi.controller;
 
 import com.example.springApi.domain.dto.CategoryRecipeRequestDto;
+import com.example.springApi.domain.dto.CommentDto;
 import com.example.springApi.domain.dto.MetaDto;
 import com.example.springApi.domain.dto.RecipeRequestDto;
 import com.example.springApi.domain.member.Clip;
@@ -125,4 +126,5 @@ public class RecipeController {
         Member member= memberService.getMe(accessToken);
         recipeService.deleteClip(recipe_id, member.getMemberId());
     }
+
 }

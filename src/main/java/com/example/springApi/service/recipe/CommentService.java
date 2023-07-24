@@ -11,10 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -60,5 +57,9 @@ public class CommentService {
         map.put("data",commentList);
 
         return map;
+    }
+
+    public void deleteComment(String comment_id){
+        commentRepository.deleteById(Long.parseLong(comment_id));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.springApi.controller;
 
 import com.example.springApi.domain.comment.Comment;
+import com.example.springApi.domain.comment.ReComment;
 import com.example.springApi.domain.dto.CommentDto;
 import com.example.springApi.domain.dto.CommentRequestDto;
 import com.example.springApi.service.recipe.CommentService;
@@ -38,7 +39,6 @@ public class CommentController {
 
         commentDto.setCreateDate(cal.getTime());
 
-        System.out.println(commentDto.toString());
         return commentService.createComment(recipe_id,commentDto);
     }
 
@@ -55,4 +55,23 @@ public class CommentController {
     public void deleteComment(@PathVariable("id")String comment_id){
         commentService.deleteComment(comment_id);
     }
+
+    //대댓글 생성
+    @PostMapping("/recomment/{id}")
+    public ReComment createReComment(@PathVariable("id")String comment_id, @RequestBody CommentDto commentDto) throws ParseException {
+        Date now = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        // 포맷팅 적용
+        Date formatedNow = formatter.parse(formatter.format(now));
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(formatedNow);
+        cal.add(Calendar.HOUR,9);
+
+        commentDto.setCreateDate(cal.getTime());
+
+        System.out.println(commentDto.toString());
+        return commentService.createReComment(comment_id,commentDto);
+    }
+
 }

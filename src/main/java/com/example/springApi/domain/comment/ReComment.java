@@ -15,9 +15,7 @@ public class ReComment {
 
     @Id
     @GeneratedValue
-    private Long id;
-
-    private int recipe_id;
+    private Long recomment_id;
 
     private String creator;
 

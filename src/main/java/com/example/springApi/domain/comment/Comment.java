@@ -1,12 +1,11 @@
 package com.example.springApi.domain.comment;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,5 +22,9 @@ public class Comment {
     private String content;
 
     private Date createDate;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(referencedColumnName = "comment_id")
+    private List<ReComment> commentList = new ArrayList<>();
 
 }

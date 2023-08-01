@@ -74,4 +74,9 @@ public class CommentController {
         return commentService.createReComment(comment_id,commentDto);
     }
 
+    @DeleteMapping("/recomment/{id}")
+    public void deleteReComment(@PathVariable("id")String recomment_id){
+        commentService.deleteRecomment(recomment_id);
+    }
+
 }

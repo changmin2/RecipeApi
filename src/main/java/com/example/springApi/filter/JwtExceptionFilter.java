@@ -1,6 +1,7 @@
 package com.example.springApi.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,15 +21,15 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             chain.doFilter(request, response); // JwtAuthenticationFilter로 이동
-        } catch (JwtException ex) {
-            System.out.println("hihi");
+        }
+        catch (JwtException ex) {
             // JwtAuthenticationFilter에서 예외 발생하면 바로 setErrorResponse 호출
             setErrorResponse(request, response, ex);
         }
     }
 
     public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, Throwable ex) throws IOException {
-
+        System.out.println("setErrorResponse진입");
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         final Map<String, Object> body = new HashMap<>();

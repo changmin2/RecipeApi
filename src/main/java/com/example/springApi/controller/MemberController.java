@@ -50,7 +50,7 @@ public class MemberController {
 
     @GetMapping("/me")
     public Map<String,String> getMe(HttpServletRequest request){
-        System.out.println("me 진입");
+
         String authroizationHeader = request.getHeader(AUTHORIZATION);
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){
             throw new RuntimeException("JWT Token이 존재하지 않습니다.");
@@ -73,8 +73,9 @@ public class MemberController {
         return memberService.join(memberId,password);
     }
 
-    @GetMapping("/refresh")
+    @PostMapping("/token")
     public TokenInfo refresh(HttpServletRequest request, HttpServletResponse response){
+        System.out.println("리프레시 토큰 발급");
         String authroizationHeader = request.getHeader(AUTHORIZATION);
 
         if(authroizationHeader == null || !authroizationHeader.startsWith(TOKEN_HEADER_PREFIX)){

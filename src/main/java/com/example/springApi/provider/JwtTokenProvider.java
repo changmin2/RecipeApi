@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.security.Key;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -27,7 +28,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
-
+    private long accessTokenValidTime = Duration.ofMinutes(1).toMillis();
+    private long refreshTokenValidTime = Duration.ofDays(14).toMillis();
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -42,7 +44,7 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 86400000);
+        Date accessTokenExpiresIn = new Date(now + accessTokenValidTime);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
@@ -53,7 +55,8 @@ public class JwtTokenProvider {
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .setExpiration(new Date(now + 86400000))
+                .claim("auth", authorities)
+                .setExpiration(new Date(now + refreshTokenValidTime))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

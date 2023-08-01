@@ -76,4 +76,8 @@ public class CommentService {
         commentList.add(reComment);
         return commentList.get(commentList.size()-1);
     }
+
+    public void deleteRecomment(String recomment_id) {
+        reCommentRepository.deleteById(Long.parseLong(recomment_id));
+    }
 }

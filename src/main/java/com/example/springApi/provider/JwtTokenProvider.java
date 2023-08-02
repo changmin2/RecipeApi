@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final Key key;
-    private long accessTokenValidTime = Duration.ofMinutes(1).toMillis();
+    private long accessTokenValidTime = Duration.ofHours(1).toMillis();
     private long refreshTokenValidTime = Duration.ofDays(14).toMillis();
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);

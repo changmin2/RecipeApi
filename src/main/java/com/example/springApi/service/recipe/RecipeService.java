@@ -30,6 +30,7 @@ public class RecipeService {
     private int seq = 5;
 
     public Recipes getRecipe(int id){
+
         return recipeRepository.findById(id).get();
     }
 

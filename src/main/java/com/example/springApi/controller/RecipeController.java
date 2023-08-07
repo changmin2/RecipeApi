@@ -1,5 +1,6 @@
 package com.example.springApi.controller;
 
+import com.example.springApi.domain.comment.Comment;
 import com.example.springApi.domain.dto.CategoryRecipeRequestDto;
 import com.example.springApi.domain.dto.CommentDto;
 import com.example.springApi.domain.dto.MetaDto;
@@ -52,6 +53,7 @@ public class RecipeController {
         Recipes recipe = recipeService.getRecipe(Integer.parseInt(id));
         List<DetailRecipe> details = recipeService.getDetail(id);
         List<IngredientsRecipe> ingredientsRecipeList = recipeService.getIngredients(id);
+        int count = 0;
         Map<String,Object> map = new HashMap<>();
         map.put("data",details);
         map.put("ingredients",ingredientsRecipeList);
@@ -70,6 +72,17 @@ public class RecipeController {
         map.put("pc_nm",recipe.getPc_nm());
         map.put("image_url",recipe.getImage_url());
         map.put("detail_url",recipe.getDetail_url());
+        //댓글 개수 추가
+        if(recipe.getCommentList().size()>0){
+            count+=recipe.getCommentList().size();
+            for (Comment comment : recipe.getCommentList()) {
+                count+=comment.getCommentList().size();
+            }
+            map.put("commentCount",count);
+        }else{
+            map.put("commentCount",0);
+        }
+
         return map;
     }
 

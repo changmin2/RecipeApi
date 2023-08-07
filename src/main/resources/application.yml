@@ -1,13 +1,13 @@
 jwt:
-  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  secret: *******
 spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://database-1.c1y7okbrwagj.ap-northeast-2.rds.amazonaws.com:3306/recipe?autoReconnect=true
-    username: admin
-    password: gkfdkqjwl1
+    url: jdbc:mysql://*********:3306/recipe?autoReconnect=true
+    username: *******
+    password: *********
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       max-lifetime: 177000
